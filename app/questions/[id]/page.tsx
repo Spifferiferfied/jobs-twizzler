@@ -24,7 +24,11 @@ type Question = {
   answers: Array<{ answer: boolean }>;
 };
 
-export default async function Page({ params }: { params: { id: number } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}) {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);
   const { id } = await params;

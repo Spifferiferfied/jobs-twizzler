@@ -13,7 +13,7 @@ export async function generateStaticParams() {
   return (
     questions?.map((question: { id: number }) => {
       return [{ page: question.id }];
-    }) || {}
+    }) || []
   );
 }
 

@@ -20,9 +20,6 @@ export async function generateStaticParams() {
 type Question = {
   question: string;
   lines: Array<{ line: string }>;
-  question_type: {
-    type: string;
-  };
   answers: Array<{ answer: boolean }>;
 };
 
@@ -42,9 +39,6 @@ export default async function Page({
     .from("questions")
     .select(`
       question,
-      question_type:question_types (
-        type
-      ),
       lines (
         line
       ),
@@ -53,17 +47,16 @@ export default async function Page({
     .eq("id", id)
     .limit(1)
     .single();
-  const question: Question = data;
+  const question: Question | null = data;
   const answers = {
     true: question?.answers.filter((answer) => answer.answer === true) || [],
     false: question?.answers.filter((answer) => answer.answer === false) || [],
   };
-  const type = question?.question_type?.type;
-  const isLine = type === "line" && question?.lines?.length > 0;
+  const isLine = question?.lines?.length && question?.lines?.length > 0;
 
   return (
     <div>
-      <h1>{question.question}</h1>
+      <h1>{question?.question}</h1>
       {isLine && <p>Over or Under {question?.lines[0]?.line}</p>}
       {isLine && (
         <p>

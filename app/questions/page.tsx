@@ -8,9 +8,6 @@ type Question = {
   lines: Array<{
     line: string;
   }>;
-  question_type: {
-    type: string;
-  };
   enabled: boolean;
 };
 
@@ -21,9 +18,6 @@ export default async function Page() {
   const { data: questions } = await supabase.from("questions").select(`
       id,
       question,
-      question_type:question_types (
-        type
-      ),
       lines (
         line
       ),
@@ -37,9 +31,7 @@ export default async function Page() {
           <li key={question.id}>
             <Link href={`/questions/${question.id}`}>
               {question.question}
-              {question.question_type.type === "line" &&
-                question.lines.length > 0 &&
-                ` +/- ${question.lines[0]?.line}`}
+              {question.lines.length > 0 && ` +/- ${question.lines[0]?.line}`}
             </Link>
           </li>
         ))}

@@ -12,8 +12,8 @@ export async function generateStaticParams() {
   const { data: questions } = await supabase.from("questions").select(`id`);
   return (
     questions?.map((question: { id: number }) => {
-      return { params: { page: question.id } };
-    }) || { params: {} }
+      return { page: question.id };
+    }) || {}
   );
 }
 

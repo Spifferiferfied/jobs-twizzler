@@ -12,7 +12,7 @@ export async function generateStaticParams() {
   const { data: questions } = await supabase.from("questions").select(`id`);
   return (
     questions?.map((question: { id: number }) => {
-      return { page: question.id };
+      return [{ page: question.id }];
     }) || {}
   );
 }
@@ -29,7 +29,7 @@ type Question = {
 export default async function Page({
   params,
 }: {
-  params: Promise<{ id: number }>;
+  params: Promise<[{ id: number }]>;
 }) {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);

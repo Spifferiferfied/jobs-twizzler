@@ -10,9 +10,11 @@ export async function generateStaticParams() {
   }
   const supabase = createClient(supabaseUrl, supabaseKey);
   const { data: questions } = await supabase.from("questions").select(`id`);
-  return questions?.map((question: { id: number }) => {
-    return { params: { page: question.id } };
-  });
+  return (
+    questions?.map((question: { id: number }) => {
+      return { params: { page: question.id } };
+    }) || { params: {} }
+  );
 }
 
 type Question = {

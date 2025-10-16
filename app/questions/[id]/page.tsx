@@ -29,7 +29,7 @@ type Question = {
 export default async function Page({
   params,
 }: {
-  params: Promise<[{ id: number }]>;
+  params: Promise<{ id: number }[]>;
 }) {
   const cookieStore = cookies();
   const supabase = createServerClient(cookieStore);

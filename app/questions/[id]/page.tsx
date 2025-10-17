@@ -28,8 +28,12 @@ export default async function Page({
 }: {
   params: Promise<{ id: number }>;
 }) {
-  const cookieStore = cookies();
-  const supabase = createServerClient(cookieStore);
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error("Supabase environment variables are not set.");
+  }
+  const supabase = createClient(supabaseUrl, supabaseKey);
   const { id } = await params;
   if (!id) {
     return <div>Question not found</div>;
@@ -52,7 +56,7 @@ export default async function Page({
     true: question?.answers.filter((answer) => answer.answer === true) || [],
     false: question?.answers.filter((answer) => answer.answer === false) || [],
   };
-  const isLine = question?.lines?.length && question?.lines?.length > 0;
+  const isLine = question?.lines && question?.lines?.length > 0;
 
   return (
     <div>

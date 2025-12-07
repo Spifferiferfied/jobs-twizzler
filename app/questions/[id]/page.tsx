@@ -61,13 +61,14 @@ export default async function Page({
   return (
     <div>
       <h1>{question?.question}</h1>
-      {isLine && <p>Over or Under {question?.lines[0]?.line}</p>}
-      {isLine && (
-        <p>
-          Over: {answers.true.length} Under: {answers.false.length}
-        </p>
-      )}
-      {!isLine && (
+      {isLine ? (
+        <div>
+          <p>Over or Under {question?.lines[0]?.line}</p>
+          <p>
+            Over: {answers.true.length} Under: {answers.false.length}
+          </p>
+        </div>
+      ) : (
         <p>
           Yes: {answers.true.length} No: {answers.false.length}
         </p>

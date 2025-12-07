@@ -28,7 +28,7 @@ export default async function Page() {
     <div>
       <ul>
         {questions?.map((question: Question) => (
-          <li key={question.id}>
+          <li key={question.id} className="mb-3">
             <Link href={`/questions/${question.id}`}>
               {question.question}
               {question.lines.length > 0 && ` +/- ${question.lines[0]?.line}`}

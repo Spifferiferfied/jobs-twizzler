@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { signInWithGoogle, signInWithApple } from "./actions";
+import { signInWithApple, signInWithGoogle } from "./actions";
 
 export default async function LoginPage({
   searchParams,
@@ -8,7 +8,9 @@ export default async function LoginPage({
   searchParams: Promise<{ next?: string }>;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { next } = await searchParams;
 
   if (user) {
@@ -26,7 +28,7 @@ export default async function LoginPage({
           <input type="hidden" name="next" value={next ?? "/"} />
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-secondary bg-secondary-dark rounded-lg hover:bg-secondary-dark/60 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-secondary bg-secondary-dark rounded-lg hover:bg-secondary-dark/60 transition-colors cursor-pointer"
           >
             <GoogleIcon />
             Sign in with Google
@@ -36,10 +38,9 @@ export default async function LoginPage({
           <input type="hidden" name="next" value={next ?? "/"} />
           <button
             type="submit"
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-secondary bg-black text-white rounded-lg hover:bg-black/70 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-secondary bg-black text-white rounded-lg hover:bg-black/70 transition-colors cursor-pointer"
           >
-            <AppleIcon />
-            Sign in with Apple
+            <span className="text-xl"></span> Sign in with Apple
           </button>
         </form>
       </div>
@@ -66,14 +67,6 @@ function GoogleIcon() {
         fill="#EA4335"
         d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"
       />
-    </svg>
-  );
-}
-
-function AppleIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 814 1000" fill="white" aria-hidden="true">
-      <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-120.8C46.3 790.7 0 663 0 541.8 0 285.7 165.7 159.8 328.2 159.8c89.5 0 164 59.5 220.6 59.5 54.1 0 139.2-62.8 241.6-62.8zm-65.1-155.2c-1.9-12-1.9-23.9-1.9-35.8 0-87.6 47.8-164 109.7-210.4 5.8-3.9 18.4-14.5 28-14.5 1.3 0 2.6.6 3.9.6.6 6.5.6 13 .6 19.5 0 80.1-46.1 153.6-107.4 200.5-5.2 3.2-21.9 17.5-32.9 40.1z" />
     </svg>
   );
 }

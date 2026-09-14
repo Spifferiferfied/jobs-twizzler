@@ -1,14 +1,15 @@
 import { type CookieOptions, createServerClient } from "@supabase/ssr";
-import type { cookies } from "next/headers";
+import { cookies } from "next/headers";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
+export const createClient = async () => {
+  const cookieStore = await cookies();
   return createServerClient(supabaseUrl!, supabaseKey!, {
     cookies: {
-      async getAll() {
-        return (await cookieStore).getAll();
+      getAll() {
+        return cookieStore.getAll();
       },
       setAll(
         cookiesToSet: Array<{
@@ -18,8 +19,8 @@ export const createClient = (cookieStore: ReturnType<typeof cookies>) => {
         }>,
       ) {
         try {
-          cookiesToSet.forEach(async ({ name, value, options }) => {
-            (await cookieStore).set(name, value, options);
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options);
           });
         } catch {
           // The `setAll` method was called from a Server Component.

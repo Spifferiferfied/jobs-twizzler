@@ -23,7 +23,11 @@ export default function AddQuestionForm() {
           name="question"
           required
           rows={3}
-          placeholder="e.g. Will it rain here before midnight?"
+          placeholder={
+            type === "over/under"
+              ? "e.g. How many Jonas Brothers have eaten an entire pizza in one sitting?"
+              : "e.g. Did Dolly Parton ever watch an entire episode of The Mandalorian?"
+          }
           className={inputClass}
         />
       </label>
@@ -60,7 +64,7 @@ export default function AddQuestionForm() {
           <input
             name="line"
             type="text"
-            placeholder="e.g. 3.5 inches"
+            placeholder="e.g. 2.5"
             className={inputClass}
           />
         </label>

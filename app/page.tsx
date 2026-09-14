@@ -1,26 +1,4 @@
-import Image from "next/image";
 import Link from "next/link";
-import { createClient } from "@/utils/supabase/server";
-
-type QuestionRow = {
-  id: number;
-  question: string;
-  lines: Array<{
-    line: string;
-  }>;
-  answers: Array<{ count: number }>;
-  enabled: boolean;
-};
-
-type Question = {
-  id: number;
-  question: string;
-  lines: Array<{
-    line: string;
-  }>;
-  answerCount: number;
-  enabled: boolean;
-};
 
 export default async function Page() {
   return (

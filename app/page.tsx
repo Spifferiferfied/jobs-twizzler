@@ -20,8 +20,8 @@ export default async function Page() {
       </p>
       <p>We find that sad.</p>
       <p>
-        The premise of this app is to ask questions that are, by-in-large,
-        unanswerable. Dedicated the innumerable hours spent at Jake&apos;s
+        The premise of this app is to ask questions that are, by and large,
+        unanswerable. Dedicated to the innumerable hours spent at Jake&apos;s
         Liquors playing pool with Tommy Coral and Milton Sandler talking about
         these important questions and, of course, the late Princess Diana.
       </p>

@@ -161,7 +161,10 @@ export default async function Page({
               >
                 {isLine ? "Over" : "Yes"}:{" "}
                 <span className="font-normal">
-                  {(totals.true / (totals.true + totals.false)) * 100}%
+                  {Math.round(
+                    (totals.true / (totals.true + totals.false)) * 100,
+                  )}
+                  %
                 </span>
               </div>
               <div
@@ -169,7 +172,10 @@ export default async function Page({
               >
                 {isLine ? "Under" : "No"}:{" "}
                 <span className="font-normal">
-                  {(totals.false / (totals.true + totals.false)) * 100}%
+                  {Math.round(
+                    (totals.false / (totals.true + totals.false)) * 100,
+                  )}
+                  %
                 </span>
               </div>
             </div>

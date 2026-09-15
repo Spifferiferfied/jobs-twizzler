@@ -5,8 +5,10 @@ import Link from "next/link";
 import { signOut } from "@/app/auth/login/actions";
 import { isAdmin } from "@/utils/auth";
 import { createClient } from "@/utils/supabase/server";
+import HeapIdentify from "./HeapIdentify";
 import ProfileMenu from "./ProfileMenu";
 import "./globals.css";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 const barlow = Barlow({
   subsets: ["latin"],
@@ -33,6 +35,21 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${barlow.variable} antialiased`}>
+        <GoogleTagManager gtmId="GTM-TSZMP4FP" />
+        <HeapIdentify
+          userId={user?.id}
+          role={user ? (admin ? "admin" : "member") : undefined}
+          authProvider={user?.app_metadata?.provider}
+        />
+        <noscript>
+          <iframe
+            title="gtm-iframe"
+            src="https://www.googletagmanager.com/ns.html?id=GTM-TSZMP4FP"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
         <header className="flex items-center justify-between px-4 py-4 border-b border-secondary/30">
           <Link href="/" className="font-semibold">
             <Image

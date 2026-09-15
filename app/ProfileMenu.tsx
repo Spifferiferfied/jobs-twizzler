@@ -70,7 +70,7 @@ export default function ProfileMenu() {
         <div
           role="menu"
           aria-label="Profile"
-          className="absolute -right-4 mt-2 p-4 w-[75dvw] md:w-56 overflow-hidden bg-secondary-dark shadow-lg z-50 starting:max-h-0 transition-[max-height max-h-screen duration-150 ease-in"
+          className="absolute -right-4 mt-2 w-[75dvw] md:w-56 overflow-hidden bg-secondary-dark shadow-lg z-50 starting:max-h-0 transition-[max-height max-h-screen duration-150 ease-in"
         >
           <Link
             href="/questions/new"

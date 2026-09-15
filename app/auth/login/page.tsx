@@ -20,10 +20,10 @@ export default async function LoginPage({
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <h1 className="text-2xl font-bold">Sign in to vote</h1>
-      <p className="text-sm text-left">
+      <p className="text-sm">
         Sign in to record your votes and see how others have voted.
       </p>
-      <p className="text-sm w-full">
+      <p className="text-sm">
         You can sign in using your Google or Apple accounts.
       </p>
       <div className="flex flex-col gap-4 w-64 mt-4">

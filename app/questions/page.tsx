@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { isAdmin } from "@/utils/auth";
+import ClearAnswersButton from "./ClearAnswersButton";
 import { createClient } from "@/utils/supabase/server";
 
 type QuestionRow = {
@@ -78,7 +79,8 @@ export default async function Page() {
   return (
     <div>
       {admin && (
-        <div className="mb-4 flex justify-end">
+        <div className="mb-4 flex justify-end gap-3">
+          <ClearAnswersButton />
           <Link
             href="/questions/new"
             className="px-4 py-2 rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors"

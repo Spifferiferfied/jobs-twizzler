@@ -3,7 +3,9 @@ import { Barlow } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "@/app/auth/login/actions";
+import { isAdmin } from "@/utils/auth";
 import { createClient } from "@/utils/supabase/server";
+import ProfileMenu from "./ProfileMenu";
 import "./globals.css";
 
 const barlow = Barlow({
@@ -26,11 +28,12 @@ export default async function RootLayout({
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  const admin = await isAdmin();
 
   return (
     <html lang="en">
       <body className={`${barlow.variable} antialiased`}>
-        <header className="flex items-center justify-between px-6 py-4 border-b border-secondary/30">
+        <header className="flex items-center justify-between px-4 py-4 border-b border-secondary/30">
           <Link href="/" className="font-semibold">
             <Image
               src="/logo.svg"
@@ -43,25 +46,29 @@ export default async function RootLayout({
           </Link>
           <div>
             {user ? (
-              <form action={signOut}>
-                <button
-                  type="submit"
-                  className="text-sm text-foreground/60 hover:text-foreground transition-colors"
-                >
-                  Sign out
-                </button>
-              </form>
+              admin ? (
+                <ProfileMenu />
+              ) : (
+                <form action={signOut}>
+                  <button
+                    type="submit"
+                    className="text-sm text-foreground/60 hover:text-foreground transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </form>
+              )
             ) : (
               <Link
                 href="/auth/login"
                 className="text-sm text-foreground/60 hover:text-foreground transition-colors"
               >
-                Sign in
+                Sign In
               </Link>
             )}
           </div>
         </header>
-        <main className="max-w-2xl mx-auto px-6 py-8">{children}</main>
+        <main className="max-w-2xl mx-auto px-4 py-8">{children}</main>
       </body>
     </html>
   );

@@ -18,12 +18,15 @@ export default async function LoginPage({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-6">
+    <div className="flex flex-col items-center justify-center gap-4">
       <h1 className="text-2xl font-bold">Sign in to vote</h1>
-      <p className="text-foreground/60 text-sm">
-        Your vote will be locked in — no take-backs.
+      <p className="text-sm text-left">
+        Sign in to record your votes and see how others have voted.
       </p>
-      <div className="flex flex-col gap-3 w-64">
+      <p className="text-sm w-full">
+        You can sign in using your Google or Apple accounts.
+      </p>
+      <div className="flex flex-col gap-4 w-64 mt-4">
         <form action={signInWithGoogle}>
           <input type="hidden" name="next" value={next ?? "/"} />
           <button

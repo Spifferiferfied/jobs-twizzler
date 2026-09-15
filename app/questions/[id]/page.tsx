@@ -140,7 +140,7 @@ export default async function Page({
         <>
           <div className="border-2 border-secondary bg-primary/20 rounded-lg p-4">
             <div
-              className="rounded-lg flex mb-2"
+              className="rounded-lg flex justify-between mb-2 bg-tertiary"
               style={
                 {
                   "--true-width": `${(totals.true / (totals.true + totals.false)) * 100}%`,
@@ -149,10 +149,10 @@ export default async function Page({
               }
             >
               <div
-                className={`w-(--true-width) h-[25px] border-2 rounded-tl-lg rounded-bl-lg ${userVote === true ? "bg-primary  border-secondary" : "bg-tertiary border-2 border-transparent"}`}
+                className={`w-(--true-width) h-[25px] border-2 rounded-tl-lg rounded-bl-lg ${userVote === true ? "bg-primary  border-secondary  starting:w-0 transition-[width] duration-750" : " border-2 border-transparent"}`}
               ></div>
               <div
-                className={`w-(--false-width) h-[25px] border-2 rounded-tr-lg rounded-br-lg ${userVote === false ? "bg-primary  border-secondary" : "bg-tertiary border-2 border-transparent"}`}
+                className={`w-(--false-width) h-[25px] border-2 rounded-tr-lg rounded-br-lg ${userVote === false ? "bg-primary  border-secondary  starting:w-0 transition-[width] duration-750" : " border-2 border-transparent"}`}
               ></div>
             </div>
             <div className="flex justify-between text-sm items-center">

@@ -6,6 +6,7 @@ import { signOut } from "@/app/auth/login/actions";
 import { isAdmin } from "@/utils/auth";
 import { createClient } from "@/utils/supabase/server";
 import HeapIdentify from "./HeapIdentify";
+import HeapLoader from "./HeapLoader";
 import ProfileMenu from "./ProfileMenu";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
@@ -36,6 +37,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${barlow.variable} antialiased`}>
         <GoogleTagManager gtmId="GTM-TSZMP4FP" />
+        <HeapLoader />
         <HeapIdentify
           userId={user?.id}
           role={user ? (admin ? "admin" : "member") : undefined}

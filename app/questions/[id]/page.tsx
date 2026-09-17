@@ -1,5 +1,4 @@
 import { createClient as createRawClient } from "@supabase/supabase-js";
-import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 import VoteButtons from "./VoteButtons";
@@ -68,27 +67,28 @@ export default async function Page({
   };
   const answerCount = question.answers.length;
 
-  // Check if this user has already voted, and what they voted for
+  // One trip for this user's answers covers BOTH: whether they've voted on this
+  // question (and how), and the answered-set used to pick the next unanswered
+  // question. The two per-user queries run in parallel.
   let hasVoted = false;
   let userVote: boolean | null = null;
-  if (user) {
-    const { data: existing } = await supabase
-      .from("answers")
-      .select("id, answer")
-      .eq("question_id", id)
-      .eq("user_id", user.id)
-      .maybeSingle();
-    hasVoted = !!existing;
-    userVote = existing?.answer ?? null;
-  }
-
-  // Find the next unanswered question for this user
   let nextQuestionId: number | null = null;
   if (user) {
-    const [{ data: allQuestions }, { data: myAnswers }] = await Promise.all([
+    const [{ data: myAnswers }, { data: allQuestions }] = await Promise.all([
+      supabase
+        .from("answers")
+        .select("question_id, answer")
+        .eq("user_id", user.id),
       supabase.from("questions").select("id").order("id"),
-      supabase.from("answers").select("question_id").eq("user_id", user.id),
     ]);
+
+    const mine = (myAnswers ?? []).find(
+      (a: { question_id: number; answer: boolean }) =>
+        a.question_id === question.id,
+    );
+    hasVoted = !!mine;
+    userVote = mine?.answer ?? null;
+
     const answeredIds = new Set(
       (myAnswers ?? []).map((a: { question_id: number }) => a.question_id),
     );
@@ -103,17 +103,7 @@ export default async function Page({
   }
 
   return (
-    <div className="flex flex-col gap-4 -mt-6">
-      <Link className="flex gap-1" href="/questions">
-        <Image
-          src="/icons/arrow-left.svg"
-          className="inline"
-          alt="arrow"
-          width={4}
-          height={8}
-        />{" "}
-        All Questions
-      </Link>
+    <>
       <div className="border-2 border-secondary rounded-lg p-4 font-bold text-md bg-secondary-dark justify-center items-center flex flex-col">
         <h1 className="text-2xl font-bold ${isLine mb-4">
           {question.question}
@@ -200,6 +190,6 @@ export default async function Page({
       {user && !hasVoted && (
         <VoteButtons questionId={question.id} isLine={isLine} />
       )}
-    </div>
+    </>
   );
 }

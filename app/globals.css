@@ -20,20 +20,17 @@ body {
   font-family: var(--font-barlow), sans-serif;
 }
 .loading-btn {
-  .loading-spinner {
-    display: none;
-  }
   &:active,
-  &:focus {
-    @apply relative;
-    :not(.loading-spinner) {
-      @apply opacity-50;
+  &:focus,
+  &.active {
+    @apply relative text-white/50 bg-primary/50;
+    &:disabled {
+      @apply opacity-100;
     }
-    .loading-spinner {
+    &::after {
+      @apply absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2 w-8 h-8 animate-spin;
+      content: url("/icons/spinner.svg");
       display: block;
-      * {
-        @apply opacity-100;
-      }
     }
   }
 }

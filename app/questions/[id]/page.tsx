@@ -66,6 +66,7 @@ export default async function Page({
     true: question.answers.filter((a) => a.answer === true).length,
     false: question.answers.filter((a) => a.answer === false).length,
   };
+  const answerCount = question.answers.length;
 
   // Check if this user has already voted, and what they voted for
   let hasVoted = false;
@@ -113,22 +114,23 @@ export default async function Page({
         />{" "}
         All Questions
       </Link>
-      <div className="border-2 border-secondary rounded-lg p-4 font-bold text-md bg-secondary-dark">
-        <h1 className={`text-2xl font-bold ${isLine ? "mb-4" : ""}`}>
+      <div className="border-2 border-secondary rounded-lg p-4 font-bold text-md bg-secondary-dark justify-center items-center flex flex-col">
+        <h1 className="text-2xl font-bold ${isLine mb-4">
           {question.question}
         </h1>
         {isLine && (
-          <p className="text-lg font-normal border-2 border-primary rounded-lg p-3 text-center bg-secondary/20">
+          <p className="text-lg font-normal border-2 border-primary rounded-lg p-3 text-center bg-secondary/20 mb-2 w-full">
             Line: <span className="font-bold">+/- {line}</span>
           </p>
         )}
+        <span className="text-sm font-normal">{answerCount} Answered</span>
       </div>
 
       {!user && (
         <p className="text-gray-500 text-sm">
           <Link
             href={`/auth/login?next=/questions/${id}`}
-            className="underline font-medium text-gray-800"
+            className="underline font-medium text-primary"
           >
             Sign in
           </Link>{" "}
@@ -183,7 +185,7 @@ export default async function Page({
           {nextQuestionId ? (
             <Link
               href={`/questions/${nextQuestionId}`}
-              className="py-4 w-full block text-center rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors disabled:opacity-50"
+              className="loading-btn py-4 w-full block text-center rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors disabled:opacity-50"
             >
               Next Question
             </Link>

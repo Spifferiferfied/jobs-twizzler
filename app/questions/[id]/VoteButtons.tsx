@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@radix-ui/themes";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { submitVote } from "./actions";
 
 type Props = {
@@ -11,8 +11,10 @@ type Props = {
 
 export default function VoteButtons({ questionId, isLine }: Props) {
   const [isPending, startTransition] = useTransition();
+  const [answer, setAnswer] = useState<boolean | null>(null);
 
   function vote(answer: boolean) {
+    setAnswer(answer);
     startTransition(async () => {
       const result = await submitVote(questionId, answer);
       if (result.error) {
@@ -27,7 +29,7 @@ export default function VoteButtons({ questionId, isLine }: Props) {
         type="button"
         disabled={isPending}
         onClick={() => vote(true)}
-        className=" text-center flex-1 py-4 rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors disabled:opacity-50"
+        className={`loading-btn text-center flex-1 py-4 rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors disabled:opacity-50 ${answer === true ? "active" : ""}`}
       >
         {isLine ? `Over` : "Yes"}
       </Button>
@@ -35,7 +37,7 @@ export default function VoteButtons({ questionId, isLine }: Props) {
         type="button"
         disabled={isPending}
         onClick={() => vote(false)}
-        className="text-center flex-1 py-4 rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors disabled:opacity-50"
+        className={`loading-btn text-center flex-1 py-4 rounded-lg border-2 border-secondary bg-primary font-bold hover:bg-primary/80 hover:text-white transition-colors disabled:opacity-50 ${answer === false ? "active" : ""}`}
       >
         {isLine ? `Under` : "No"}
       </Button>

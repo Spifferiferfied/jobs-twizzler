@@ -88,6 +88,7 @@ export default async function RootLayout({
           </div>
         </header>
         <main className="max-w-2xl mx-auto px-4 py-8">{children}</main>
+        <footer>@ 2026 Impossible Queries</footer>
       </body>
     </html>
   );

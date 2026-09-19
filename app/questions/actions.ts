@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
 export type ClearAnswersState = { error?: string; cleared?: number };
@@ -31,5 +31,6 @@ export async function clearMyAnswers(): Promise<ClearAnswersState> {
 
   revalidatePath("/questions");
   revalidatePath("/");
+  updateTag("questions");
   return { cleared: count ?? 0 };
 }

@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 
 export async function submitVote(questionId: number, answer: boolean) {
@@ -29,5 +29,6 @@ export async function submitVote(questionId: number, answer: boolean) {
   }
 
   revalidatePath(`/questions/${questionId}`);
+  updateTag("questions");
   return { success: true };
 }

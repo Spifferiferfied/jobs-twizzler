@@ -1,59 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getQuestions } from "@/utils/queries";
 import { createClient } from "@/utils/supabase/server";
-
-type QuestionRow = {
-  id: number;
-  question: string;
-  lines: Array<{
-    line: string;
-  }>;
-  answers: Array<{ count: number }>;
-  enabled: boolean;
-};
 
 type Question = {
   id: number;
   question: string;
-  lines: Array<{
-    line: string;
-  }>;
+  lines: Array<{ line: string }>;
   answerCount: number;
   enabled: boolean;
 };
 
 export default async function Page() {
+  // Public list — served from the Next data cache (see utils/queries.ts).
+  const rows = await getQuestions();
+  const questions: Question[] = rows.map((q) => ({
+    id: q.id,
+    question: q.question,
+    lines: q.lines,
+    answerCount: q.answers[0]?.count ?? 0,
+    enabled: q.enabled,
+  }));
+
+  // Per-user: which questions they've answered (sinks answered to the bottom).
   const supabase = await createClient();
-
-  const { data } = await supabase
-    .from("questions")
-    .select(`
-      id,
-      question,
-      lines (
-        line
-      ),
-      answers (
-        count
-      ),
-      enabled
-    `)
-    .order("id", { ascending: true });
-
-  const questions: Question[] =
-    data?.map((question: QuestionRow) => ({
-      id: question.id,
-      question: question.question,
-      lines: question.lines,
-      answerCount: question.answers[0]?.count ?? 0,
-      enabled: question.enabled,
-    })) ?? [];
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Signed-in users: questions they've already answered sink to the bottom.
   let answeredIds = new Set<number>();
   if (user) {
     const { data: myAnswers } = await supabase

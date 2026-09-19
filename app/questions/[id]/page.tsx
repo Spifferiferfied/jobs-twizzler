@@ -1,5 +1,6 @@
 import { createClient as createRawClient } from "@supabase/supabase-js";
 import Link from "next/link";
+import { getQuestion } from "@/utils/queries";
 import { createClient } from "@/utils/supabase/server";
 import VoteButtons from "./VoteButtons";
 
@@ -18,13 +19,6 @@ export async function generateStaticParams() {
   );
 }
 
-type Question = {
-  id: number;
-  question: string;
-  lines: Array<{ line: string }>;
-  answers: Array<{ answer: boolean }>;
-};
-
 export default async function Page({
   params,
 }: {
@@ -38,21 +32,11 @@ export default async function Page({
   }
 
   const [
-    { data },
+    question,
     {
       data: { user },
     },
-  ] = await Promise.all([
-    supabase
-      .from("questions")
-      .select(`id, question, lines (line), answers (answer)`)
-      .eq("id", id)
-      .limit(1)
-      .single(),
-    supabase.auth.getUser(),
-  ]);
-
-  const question: Question | null = data;
+  ] = await Promise.all([getQuestion(id), supabase.auth.getUser()]);
 
   if (!question) {
     return <div>Question not found</div>;

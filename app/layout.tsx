@@ -88,7 +88,15 @@ export default async function RootLayout({
           </div>
         </header>
         <main className="max-w-2xl mx-auto px-4 py-8">{children}</main>
-        <footer>@ 2026 Impossible Queries</footer>
+        <footer className="mx-auto max-w-2xl px-4 py-8 mt-4 border-t border-secondary/30 text-sm text-foreground/60 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <span>© 2026 Impossible Queries</span>
+          <Link href="/privacy" className="hover:text-foreground transition-colors">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-foreground transition-colors">
+            Terms
+          </Link>
+        </footer>
       </body>
     </html>
   );

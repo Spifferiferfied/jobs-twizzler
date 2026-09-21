@@ -1,7 +1,9 @@
 import { createClient as createRawClient } from "@supabase/supabase-js";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { getQuestion } from "@/utils/queries";
 import { createClient } from "@/utils/supabase/server";
+import ShareButton from "./ShareButton";
 import VoteButtons from "./VoteButtons";
 
 export async function generateStaticParams() {
@@ -17,6 +19,31 @@ export async function generateStaticParams() {
       return { id: String(question.id) };
     }) || []
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const question = await getQuestion(id);
+  if (!question) {
+    return { title: "Question not found — Impossible Queries" };
+  }
+  return {
+    title: `${question.question} — Impossible Queries`,
+    description: "Cast your vote — bar debates for the ungoogleable.",
+    openGraph: {
+      title: question.question,
+      description: "Cast your vote — bar debates for the ungoogleable.",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: question.question,
+    },
+  };
 }
 
 export default async function Page({
@@ -88,16 +115,15 @@ export default async function Page({
 
   return (
     <>
-      <div className="border-2 border-secondary rounded-lg p-4 font-bold text-md bg-secondary-dark justify-center items-center flex flex-col">
-        <h1 className="text-2xl font-bold ${isLine mb-4">
-          {question.question}
-        </h1>
+      <div className="relative border-2 border-secondary rounded-lg p-4 font-bold text-md bg-secondary-dark justify-center items-center flex flex-col">
+        <h1 className="text-2xl font-bold">{question.question}</h1>
         {isLine && (
           <p className="text-lg font-normal border-2 border-primary rounded-lg p-3 text-center bg-secondary/20 mb-2 w-full">
             Line: <span className="font-bold">+/- {line}</span>
           </p>
         )}
         <span className="text-sm font-normal">{answerCount} Answered</span>
+        <ShareButton title={question.question} />
       </div>
 
       {!user && (

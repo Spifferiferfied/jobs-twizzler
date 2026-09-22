@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { safeNext } from "@/utils/nav";
 import { createClient } from "@/utils/supabase/server";
 import { signInWithApple, signInWithGoogle } from "./actions";
 
@@ -14,8 +15,10 @@ export default async function LoginPage({
   } = await supabase.auth.getUser();
   const { next } = await searchParams;
 
+  const dest = safeNext(next);
+
   if (user) {
-    redirect(next ?? "/");
+    redirect(dest);
   }
 
   return (
@@ -29,7 +32,7 @@ export default async function LoginPage({
       </p>
       <div className="flex flex-col gap-4 w-64 mt-4">
         <form action={signInWithGoogle}>
-          <input type="hidden" name="next" value={next ?? "/"} />
+          <input type="hidden" name="next" value={dest} />
           <button
             type="submit"
             className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-secondary bg-secondary-dark rounded-lg hover:bg-secondary-dark/60 transition-colors cursor-pointer"
@@ -39,7 +42,7 @@ export default async function LoginPage({
           </button>
         </form>
         <form action={signInWithApple}>
-          <input type="hidden" name="next" value={next ?? "/"} />
+          <input type="hidden" name="next" value={dest} />
           <button
             type="submit"
             className="w-full flex items-center justify-center gap-2 px-4 py-2 border border-secondary bg-black text-white rounded-lg hover:bg-black/70 transition-colors cursor-pointer"

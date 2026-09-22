@@ -8,6 +8,7 @@ import { createClient } from "@/utils/supabase/server";
 import HeapIdentify from "./HeapIdentify";
 import HeapLoader from "./HeapLoader";
 import ProfileMenu from "./ProfileMenu";
+import SignInLink from "./SignInLink";
 import "./globals.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 
@@ -18,6 +19,7 @@ const barlow = Barlow({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.impossiblequeries.com"),
   title: "Impossible Queries",
   description: "Bar debates for the ungoogleable.",
 };
@@ -78,12 +80,7 @@ export default async function RootLayout({
                 </form>
               )
             ) : (
-              <Link
-                href="/auth/login"
-                className="text-sm text-foreground/60 hover:text-foreground transition-colors"
-              >
-                Sign In
-              </Link>
+              <SignInLink className="text-sm text-foreground/60 hover:text-foreground transition-colors" />
             )}
           </div>
         </header>

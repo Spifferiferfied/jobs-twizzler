@@ -34,3 +34,72 @@ body {
     }
   }
 }
+
+/* Rendered legal pages (privacy / terms) — theme the raw HTML content */
+.policy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  line-height: 1.6;
+  word-break: break-word;
+}
+.policy h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+.policy h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+}
+.policy h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+.policy a {
+  color: var(--color-secondary);
+  text-decoration: underline;
+}
+.policy ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+.policy ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+.policy li {
+  margin: 0.25rem 0;
+}
+.policy strong {
+  font-weight: 700;
+}
+.policy table {
+  border-collapse: collapse;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+.policy th,
+.policy td {
+  border: 1px solid var(--color-secondary);
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Smooth in-page jumps for the policy table of contents */
+html {
+  scroll-behavior: smooth;
+}
+.policy [id] {
+  scroll-margin-top: 1.5rem;
+}
+
+/* Keep the data table's third column ("Collected") on a single line */
+.policy th:nth-child(3),
+.policy td:nth-child(3) {
+  white-space: nowrap;
+}

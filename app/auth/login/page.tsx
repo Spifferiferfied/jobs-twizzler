@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { safeNext } from "@/utils/nav";
 import { createClient } from "@/utils/supabase/server";
@@ -50,6 +51,17 @@ export default async function LoginPage({
           </button>
         </form>
       </div>
+      <p className="text-xs text-foreground/60 mt-2 text-center max-w-64">
+        By signing in, you agree to our{" "}
+        <Link href="/terms" className="underline text-primary">
+          Terms
+        </Link>{" "}
+        and{" "}
+        <Link href="/privacy" className="underline text-primary">
+          Privacy Policy
+        </Link>
+        .
+      </p>
     </div>
   );
 }
